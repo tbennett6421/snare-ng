@@ -1,0 +1,5 @@
+The Metasploit Framework can automatically generate shellcode payloads. A standard
+reverse shell payload requires about 350-400 bytes of space. Looking back at the last
+crash, we can see that the ESP register points directly to the beginning of our buffer of
+C’s. This seems like a convenient location to place our shellcode as it will be easily
+accessible to us through the ESP register later on.
