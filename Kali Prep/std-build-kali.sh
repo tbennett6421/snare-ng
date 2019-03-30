@@ -1,27 +1,25 @@
 #!/usr/bin/env bash
 
-# Begin
-rm -rf /opt/build/src
-mkdir -p /opt/build/{src,linux,windows}
+## Begin
+rm -rf /opt/build/ && mkdir -p /opt/build/
 
 ## Reconnoitre
-mkdir -p /opt/build/src/Reconnoitre && cd /opt/build/src/Reconnoitre
+mkdir -p /opt/build/Reconnoitre && cd /opt/build/Reconnoitre
 git clone https://github.com/codingo/Reconnoitre.git .
 python setup.py install
 
 ## Powershell Empire
-mkdir -p /opt/build/src/Empire && cd /opt/build/src/Empire
+mkdir -p /opt/build/Empire && cd /opt/build/Empire
 git clone https://github.com/EmpireProject/Empire.git .
 bash ./setup/install.sh
 
 ## PTF
-mkdir -p /opt/build/src/ptf && mkdir -p /opt/build/linux/ptf && cd /opt/build/src/ptf
+mkdir -p /opt/build/ptf && mkdir -p /opt/build/ptf && cd /opt/build/ptf
 git clone https://github.com/trustedsec/ptf.git .
-sed -i 's~/pentest~/opt/build/linux/ptf~g' config/ptf.config
 
 ## GoBuster
 apt-get install golang -y
-mkdir -p /opt/build/src/gobuster && cd /opt/build/src/gobuster
+mkdir -p /opt/build/gobuster && cd /opt/build/gobuster
 git clone https://github.com/OJ/gobuster.git .
 go get && go build && go install
 
@@ -75,6 +73,18 @@ wget https://addons.mozilla.org/firefox/downloads/file/969185/foxyproxy_standard
 gksudo firefox -install-global-extension foxyproxy.xpi
 
 # Change Root Password
+pass1=h;pass2=p
+until [ "$pass1" == "$pass2" ]; do
+        read -p "Enter new password: " -s pass1
+        echo
+        read -p "Enter new password (again): " -s pass2
+        echo
+        if [ "$pass1" != "$pass2" ]; then
+                echo "password token error, please try again"
+        fi
+done
+echo "root:$pass1" | chpasswd
+echo "Password updated"
 
 # Regenerate SSH Keys
 rm -v /etc/ssh/ssh_host_*
