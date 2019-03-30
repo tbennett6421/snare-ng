@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+## Install additional tools
+apt-get install htop gdebi -y
+architecture=`uname -m`
+arch=0
+if [ $architecture == 'i686' ]; then
+	arch=32
+else
+	arch=64
+fi
+
 ## Begin
 rm -rf /opt/build/ && mkdir -p /opt/build/
 
@@ -24,11 +34,15 @@ git clone https://github.com/OJ/gobuster.git .
 go get -u github.com/OJ/gobuster && go build
 
 ## VS Code
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg
-echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list
-apt-get install apt-transport-https -y
-apt-get update
-apt-get install code -y
+apt-get install gdebi -y
+mkdir -p /opt/build/vscode && cd /opt/build/vscode
+if [ $arch -eq 32 ]; then
+	url=https://go.microsoft.com/fwlink/?LinkID=760680
+else
+	url=https://go.microsoft.com/fwlink/?LinkID=760868
+fi
+wget "$url" -O vscode.deb
+yes | gdebi vscode.deb
 
 ## Install debugging/emulation tools
 ## mingw-w64 provides windows build environment including cross compilers
