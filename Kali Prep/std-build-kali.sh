@@ -11,7 +11,7 @@ python setup.py install
 ## Powershell Empire
 mkdir -p /opt/build/Empire && cd /opt/build/Empire
 git clone https://github.com/EmpireProject/Empire.git .
-bash ./setup/install.sh
+echo | bash ./setup/install.sh
 
 ## PTF
 mkdir -p /opt/build/ptf && mkdir -p /opt/build/ptf && cd /opt/build/ptf
@@ -21,7 +21,7 @@ git clone https://github.com/trustedsec/ptf.git .
 apt-get install golang -y
 mkdir -p /opt/build/gobuster && cd /opt/build/gobuster
 git clone https://github.com/OJ/gobuster.git .
-go get && go build && go install
+go get -u github.com/OJ/gobuster && go build
 
 ## VS Code
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg
@@ -32,7 +32,7 @@ apt-get install code -y
 
 ## Install debugging/emulation tools
 ## mingw-w64 provides windows build environment including cross compilers
-apt-get install mingw-w64 edb wine -y
+apt-get install mingw-w64 wine -y
 wine -i > /dev/null 2>&1
 cd /root/.wine/drive_c/users/root/Downloads/
 # setup python for windows
@@ -69,8 +69,8 @@ fi
 
 ## Prep Firefox
 cd /root/Downloads/
-wget https://addons.mozilla.org/firefox/downloads/file/969185/foxyproxy_standard-6.3-an+fx.xpi -o foxyproxy.xpi
-gksudo firefox -install-global-extension foxyproxy.xpi
+wget https://addons.mozilla.org/firefox/downloads/file/969185/foxyproxy_standard-6.3-an+fx.xpi -O foxyproxy.xpi
+firefox foxyproxy.xpi
 
 # Change Root Password
 pass1=h;pass2=p
