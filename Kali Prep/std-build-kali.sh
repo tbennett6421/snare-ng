@@ -53,33 +53,40 @@ cd /root/.wine/drive_c/users/root/Downloads/
 wget https://www.python.org/ftp/python/3.7.3/python-3.7.3.exe
 wget https://www.python.org/ftp/python/2.7.16/python-2.7.16.msi
 echo "Use the defaults as the script will symlink everything to a more convenient location"
+echo "Install #1 is python3, be sure to install to C:\python3"
 read -n 1 -s -r -p "Press any key to continue"
 wine python-3.7.3.exe 
-wine python-2.7.16.msi
-
-## @todo: setup symlinks for python2 python3 pip
-## ln -s C:\Python27 /opt/build/windows/python2.exe
-## ln -s C:\Python37 /opt/build/windows/python3.exe
-## @todo: install pyinstaller.py
+msiexec /i python-2.7.16.msi
+wine /root/.wine/drive_c/Python3/Scripts/pip.exe install pyinstaller
 
 ## OllyDebug
-wget http://www.ollydbg.de/odbg110.zip -o ollydbg.zip
+mkdir -p /opt/build/ollydbg && cd /opt/build/ollydbg
+wget http://www.ollydbg.de/odbg110.zip -O ollydbg.zip
 unzip ollydbg.zip -d ollydbg/
-wine ollydbg/OLLYDBG.EXE
 
 ## Immunity debugger is blocked by registration
 ## SHA256 hash was recorded from the official site
 ## A copy was found on github; that we can dl
-## @todo install mona
+mkdir -p /opt/build/immunity-debugger && cd /opt/build/immunity-debugger
 hash='9c15cd47d018ccd99a6c8865baba20134c67061ae0e19232c32ecd0139ccfd42'
-wget https://github.com/brianwrf/PriWebshell/blob/master/ImmunityDebugger_1_85_setup.exe?raw=true -o ImmunityDebugger.exe
-ret_h=openssl sha256 ImmunityDebugger.exe
-if [ "$hash" = "$ret_h" ]; then
+wget "https://github.com/brianwrf/PriWebshell/blob/master/ImmunityDebugger_1_85_setup.exe?raw=true" -O ImmunityDebugger.exe
+sha256sum ImmunityDebugger.exe | grep -o "$hash"
+if [ $? = 0 ]; then
   echo "Matching hashes for immunity debugger"
   wine ImmunityDebugger.exe
 else
   shred -fuz ImmunityDebugger.exe
 fi
+wget https://raw.githubusercontent.com/corelan/mona/master/mona.py -O "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/PyCommands/mona.py"
+
+## Link files
+ln -s /opt/build/src/gobuster/gobuster /usr/local/bin/gobuster
+mkdir -p /root/.wine/exec
+ln -s /root/.wine/drive_c/Python27/python.exe /root/.wine/exec/python2.exe
+ln -s /root/.wine/drive_c/Python3/python.exe /root/.wine/exec/python3.exe
+ln -s /root/.wine/drive_c/Python3/Scripts/pip.exe /root/.wine/exec/pip.exe
+ln -s /opt/build/src/ollydbg/OLLYDBG.EXE /root/.wine/exec/ollydbg.exe
+ln -s /root/.wine/drive_c/Program\ Files/Immunity\ Inc/Immunity\ Debugger/ImmunityDebugger.exe /root/.wine/exec/immunity-debugger.exe
 
 ## Prep Firefox
 cd /root/Downloads/
