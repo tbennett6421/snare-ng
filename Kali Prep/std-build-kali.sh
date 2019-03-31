@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## Install additional tools
-apt-get install htop gdebi -y
+apt-get install htop gdebi openssh-server -y
 architecture=`uname -m`
 arch=0
 if [ $architecture == 'i686' ]; then
@@ -52,8 +52,8 @@ cd /root/.wine/drive_c/users/root/Downloads/
 # setup python for windows
 wget https://www.python.org/ftp/python/3.7.3/python-3.7.3.exe
 wget https://www.python.org/ftp/python/2.7.16/python-2.7.16.msi
-echo "Use the defaults as the script will symlink everything to a more convenient location"
-echo "Install #1 is python3, be sure to install to C:\python3"
+echo "[*] Use the defaults as the script will symlink everything to a more convenient location"
+echo "[*] Install #1 is python3, be sure to install to C:\Python3"
 read -n 1 -s -r -p "Press any key to continue"
 wine python-3.7.3.exe 
 msiexec /i python-2.7.16.msi
@@ -78,6 +78,10 @@ else
   shred -fuz ImmunityDebugger.exe
 fi
 wget https://raw.githubusercontent.com/corelan/mona/master/mona.py -O "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/PyCommands/mona.py"
+
+## Call mount folders
+/usr/local/sbin/mount-shared-folders
+ln -s /mnt/hgfs/$SHARE /root/Desktop/$SHARE
 
 ## Link files
 ln -s /opt/build/src/gobuster/gobuster /usr/local/bin/gobuster
