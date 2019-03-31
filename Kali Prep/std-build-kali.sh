@@ -5,7 +5,7 @@ SHARE="vmshared"
 WINEXEC="/windows/exec"
 
 ## Install additional tools
-apt-get install htop gdebi openssh-server -y
+apt-get install htop gdebi w3m openssh-server -y
 architecture=`uname -m`
 arch=0
 if [ $architecture == 'i686' ]; then
@@ -22,9 +22,14 @@ mkdir -p /opt/build/Reconnoitre && cd /opt/build/Reconnoitre
 git clone https://github.com/codingo/Reconnoitre.git .
 python setup.py install
 
+## VHostScan
+mkdir -p /opt/build/vhostscan && cd /opt/build/vhostscan
+git clone https://github.com/EmpireProject/Empire.git .
+python3 setup.py install
+
 ## Powershell Empire
 mkdir -p /opt/build/Empire && cd /opt/build/Empire
-git clone https://github.com/EmpireProject/Empire.git .
+git clone https://github.com/codingo/VHostScan.git .
 echo | bash ./setup/install.sh
 
 ## PTF
