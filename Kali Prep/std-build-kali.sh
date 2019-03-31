@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+## Define VARS here
+SHARE="vmshared"
+WINEXEC="/windows/exec"
+
 ## Install additional tools
 apt-get install htop gdebi openssh-server -y
 architecture=`uname -m`
@@ -62,7 +66,7 @@ wine /root/.wine/drive_c/Python3/Scripts/pip.exe install pyinstaller
 ## OllyDebug
 mkdir -p /opt/build/ollydbg && cd /opt/build/ollydbg
 wget http://www.ollydbg.de/odbg110.zip -O ollydbg.zip
-unzip ollydbg.zip -d ollydbg/
+unzip ollydbg.zip
 
 ## Immunity debugger is blocked by registration
 ## SHA256 hash was recorded from the official site
@@ -84,13 +88,15 @@ wget https://raw.githubusercontent.com/corelan/mona/master/mona.py -O "/root/.wi
 ln -s /mnt/hgfs/$SHARE /root/Desktop/$SHARE
 
 ## Link files
-ln -s /opt/build/src/gobuster/gobuster /usr/local/bin/gobuster
-mkdir -p /root/.wine/exec
-ln -s /root/.wine/drive_c/Python27/python.exe /root/.wine/exec/python2.exe
-ln -s /root/.wine/drive_c/Python3/python.exe /root/.wine/exec/python3.exe
-ln -s /root/.wine/drive_c/Python3/Scripts/pip.exe /root/.wine/exec/pip.exe
-ln -s /opt/build/src/ollydbg/OLLYDBG.EXE /root/.wine/exec/ollydbg.exe
-ln -s /root/.wine/drive_c/Program\ Files/Immunity\ Inc/Immunity\ Debugger/ImmunityDebugger.exe /root/.wine/exec/immunity-debugger.exe
+ln -s /opt/build/Empire/empire /usr/local/bin/empire
+ln -s /opt/build/ptf/ptf /usr/local/bin/ptf
+ln -s /opt/build/gobuster/gobuster /usr/local/bin/gobuster
+rm -rf "$WINEXEC" && mkdir -p "$WINEXEC"
+ln -s /root/.wine/drive_c/Python27/python.exe "$EXECDIR/python2.exe"
+ln -s /root/.wine/drive_c/Python3/python.exe "$EXECDIR/python3.exe"
+ln -s /root/.wine/drive_c/Python3/Scripts/pip.exe "$EXECDIR/pip.exe"
+ln -s /opt/build/ollydbg/OLLYDBG.EXE "$EXECDIR/ollydbg.exe"
+ln -s "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/ImmunityDebugger.exe" "$EXECDIR/immunity-debugger.exe"
 
 ## Prep Firefox
 cd /root/Downloads/
