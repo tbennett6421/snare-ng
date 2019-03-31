@@ -24,12 +24,12 @@ python setup.py install
 
 ## VHostScan
 mkdir -p /opt/build/vhostscan && cd /opt/build/vhostscan
-git clone https://github.com/EmpireProject/Empire.git .
+git clone https://github.com/codingo/VHostScan.git .
 python3 setup.py install
 
 ## Powershell Empire
 mkdir -p /opt/build/Empire && cd /opt/build/Empire
-git clone https://github.com/codingo/VHostScan.git .
+git clone https://github.com/EmpireProject/Empire.git .
 echo | bash ./setup/install.sh
 
 ## PTF
