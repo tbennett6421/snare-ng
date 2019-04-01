@@ -97,11 +97,11 @@ ln -s /opt/build/Empire/empire /usr/local/bin/empire
 ln -s /opt/build/ptf/ptf /usr/local/bin/ptf
 ln -s /opt/build/gobuster/gobuster /usr/local/bin/gobuster
 rm -rf "$WINEXEC" && mkdir -p "$WINEXEC"
-ln -s /root/.wine/drive_c/Python27/python.exe "$EXECDIR/python2.exe"
-ln -s /root/.wine/drive_c/Python3/python.exe "$EXECDIR/python3.exe"
-ln -s /root/.wine/drive_c/Python3/Scripts/pip.exe "$EXECDIR/pip.exe"
-ln -s /opt/build/ollydbg/OLLYDBG.EXE "$EXECDIR/ollydbg.exe"
-ln -s "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/ImmunityDebugger.exe" "$EXECDIR/immunity-debugger.exe"
+ln -s /root/.wine/drive_c/Python27/python.exe "$WINEXEC/python2.exe"
+ln -s /root/.wine/drive_c/Python3/python.exe "$WINEXEC/python3.exe"
+ln -s /root/.wine/drive_c/Python3/Scripts/pip.exe "$WINEXEC/pip.exe"
+ln -s /opt/build/ollydbg/OLLYDBG.EXE "$WINEXEC/ollydbg.exe"
+ln -s "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/ImmunityDebugger.exe" "$WINEXEC/immunity-debugger.exe"
 
 ## Prep Firefox
 cd /root/Downloads/
