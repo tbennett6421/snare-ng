@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -z "$1" ]; then
-    echo "[*] DNS Domain Enum"
+    echo "[*] FTP NSE scan"
     echo "[*] Usage : $0 <target>"
     exit 0
 fi
