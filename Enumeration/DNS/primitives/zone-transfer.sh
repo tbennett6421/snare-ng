@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Simple Zone Transfer Bash Script
 # $1 is the first argument given after the bash script
 # Check if argument was given, if not, print usage

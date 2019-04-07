@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ $# -ne 2 ]; then
-    echo "[*] DNS IP Enum"
+    echo "[*] DNS Bruteforce"
     echo "[*] Usage : $0 <domain> <dict_file>"
     exit 0
 fi

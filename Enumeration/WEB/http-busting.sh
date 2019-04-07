@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ $# -ne 2 ]; then
     echo "[*] HTTP Busting"
     echo "[*] Usage : $0 <target> <port>"

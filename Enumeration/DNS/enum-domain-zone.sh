@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ -z "$1" ]; then
     echo "[*] DNS Domain Enum"
     echo "[*] Usage : $0 <domain name>"

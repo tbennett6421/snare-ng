@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ -z "$1" ]; then
     echo "[*] rpcclient null check"
     echo "[*] Usage : $0 <target>"

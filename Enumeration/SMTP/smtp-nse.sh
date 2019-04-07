@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ -z "$1" ]; then
     echo "[*] SMTP NSE"
     echo "[*] Usage : $0 <target>"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ $# -ne 2 ]; then
     echo "[*] HTTP Enum"
     echo "[*] Usage : $0 <target> <port>"

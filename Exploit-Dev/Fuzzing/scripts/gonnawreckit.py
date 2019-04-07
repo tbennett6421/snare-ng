@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!usr/bin/env python
 
 # Author: Tyler Bennett
 # taken from various sources online and offsec

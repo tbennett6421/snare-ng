@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ $# -ne 2 ]; then
     echo "[*] SMTP Auth"
     echo "[*] Usage : $0 <target> <userlist>"

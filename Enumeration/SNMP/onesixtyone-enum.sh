@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ $# -ne 2 ]; then
     echo "[*] OneSixtyOne Enum"
     echo "[*] Usage : $0 <hosts_list> <community_lists>"
