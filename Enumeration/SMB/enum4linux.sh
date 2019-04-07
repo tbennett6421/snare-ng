@@ -5,4 +5,4 @@ if [ -z "$1" ]; then
     exit 0
 fi
 
-enum4linux -a $1
+enum4linux -a $1 > $1_enum4linux.txt

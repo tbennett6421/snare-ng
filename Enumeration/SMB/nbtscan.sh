@@ -5,4 +5,4 @@ if [ -z "$1" ]; then
     exit 0
 fi
 
-nbtscan $1
+nbtscan $1 > >(tee -a $1.nbtscan.stdout.log) 2> >(tee -a $1.nbtscan.stderr.log >&2)

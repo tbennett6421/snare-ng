@@ -9,4 +9,4 @@ fi
 #> enumdomusers     # NULL connect:  enumerate users
 #> queryuse 0x3e8   # detail info on RID 0x3e8
 
-rpcclient -U "" -N $1
+rpcclient -U "" -N $1 > >(tee -a $1.rpcclient.stdout.log) 2> >(tee -a $1.rpcclient.stderr.log >&2)
