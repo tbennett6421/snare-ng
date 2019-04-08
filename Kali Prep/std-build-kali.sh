@@ -125,3 +125,8 @@ echo "Password updated"
 # Regenerate SSH Keys
 rm -v /etc/ssh/ssh_host_*
 dpkg-reconfigure openssh-server
+
+echo "#!/bin/bash" >> /etc/rc.local
+echo "/usr/local/sbin/mount-shared-folders" >> /etc/rc.local
+echo "exit 0" >> /etc/rc.local
+chmod +x /etc/rc.local
