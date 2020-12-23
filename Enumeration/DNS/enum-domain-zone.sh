@@ -6,9 +6,10 @@ usage () {
     exit 1
 }
 
-if [ -z "$1" ]; then
+if [ $# -eq 1 ]; then
     dnsrecon -d $1 -t zonewalk  > dns-$1-zonewalk.txt
-    dnsrecon -d $1 -t axfr > dns-$1.zonetranser.txt
+    dnsrecon -d $1 -t axfr > dns-$1-zonetranser.txt
+    exit 0
 else
     usage
 fi
