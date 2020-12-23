@@ -1,9 +1,20 @@
 #!/usr/bin/env bash
-if [ $# -ne 2 ]; then
+usage () {
     echo "[*] DNS Bruteforce Enumeration"
-    echo "[*] Usage : $0 <domain> <dict_file>"
-    echo "[*] Ex1 : $0 example.org common-hostnames.txt"
+    echo "[*] Usage : $0 <domain> <dict_file:optional>"
+    echo "[*] Ex1 : $0 example.org"
+    echo "[*] Ex2 : $0 example.org common-hostnames.txt"
+    exit 1
+}
+
+if [ $# -eq 1 ]; then
+    dnsrecon -d $1 -t brt > dns-$1.brute.txt
     exit 0
+elif [ $# -eq 2 ]; then
+    dnsrecon -d $1 -D $2 -t brt > dns-$1.brute.txt
+    exit 0
+else
+    usage
 fi
 
 # -d DOMAIN, --domain DOMAIN
@@ -25,5 +36,3 @@ fi
 #         snoop     Perform cache snooping against all NS servers for a given domain, testing
 #                     all with file containing the domains, file given with -D option.
 #         tld       Remove the TLD of given domain and test against all TLDs registered in IANA.
-
-dnsrecon -d $1 -D $2 -t brt > dns-$1.brute.txt

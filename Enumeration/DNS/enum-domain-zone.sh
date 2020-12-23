@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
-if [ -z "$1" ]; then
+usage () {
     echo "[*] DNS Zone Enumeration"
     echo "[*] Usage : $0 <domain name>"
     echo "[*] Ex1 : $0 example.org"
-    exit 0
+    exit 1
+}
+
+if [ -z "$1" ]; then
+    dnsrecon -d $1 -t zonewalk  > dns-$1-zonewalk.txt
+    dnsrecon -d $1 -t axfr > dns-$1.zonetranser.txt
+else
+    usage
 fi
 
 # -d DOMAIN, --domain DOMAIN
@@ -20,6 +27,3 @@ fi
 #         snoop     Perform cache snooping against all NS servers for a given domain, testing
 #                     all with file containing the domains, file given with -D option.
 #         tld       Remove the TLD of given domain and test against all TLDs registered in IANA.
-
-dnsrecon -d $1 -t zonewalk  > dns-$1-zonewalk.txt
-dnsrecon -d $1 -t axfr > dns-$1.zonetranser.txt
