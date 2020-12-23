@@ -4,13 +4,14 @@ usage () {
     echo "[*] Usage : $0 <target> <range>"
     echo "[*] Ex1 : $0 10.0.0.25 10.0.0.0/24"
     echo "[*] Ex2 : $0 dc1.example.com 192.168.1.0/24"
-    exit 0
+    exit 1
 }
 
-if [ $# -ne 2 ]; then
-    usage
-else
+if [ $# -eq 2 ]; then
     dnsrecon -n $1 -r $2 > dns-prt-enum.txt
+    exit 0
+else
+    usage
 fi
 
 #    -n, --name_server <name>     Domain server to use. If none is given, the SOA of the target will be used.
