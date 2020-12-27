@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-if [ -z "$1" ]; then
+usage () {
     echo "[*] NMAP UDP Scan"
     echo "[*] Usage : $0 <target>"
-    exit 0
-fi
+    exit 1
+}
 
-nmap $1 -vv -n -sC -sV -O -sU --top-ports 20 -oA $1_nmap_udp
+if [ $# -eq 1 ]; then
+    nmap $1 -vv -n -sC -sV -O -sU --top-ports 20 -oA $1_nmap_udp
+    exit 0
+else
+    usage
+fi
