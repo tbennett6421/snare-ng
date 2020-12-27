@@ -1,0 +1,1 @@
+nmap -iL <hosts.txt> -sS -p 20,21,23,389,636,5900-5910,3389,1433,1434,5432,5433,3306,1521 -n --open --reason -oA app-targets

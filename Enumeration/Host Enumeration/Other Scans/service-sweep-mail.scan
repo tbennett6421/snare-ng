@@ -1,0 +1,1 @@
+nmap -iL <hosts.txt> -sS -sU -p 25,110,143,465,587,993,995 -n --open --reason -oA mail-targets

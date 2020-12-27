@@ -1,0 +1,1 @@
+nmap -iL <hosts> -sS -p 80,443,8000,8888,8080,9000 -n --open --reason -oA webserver-targets

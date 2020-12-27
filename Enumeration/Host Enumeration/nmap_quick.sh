@@ -7,7 +7,7 @@ usage () {
 }
 
 if [ $# -eq 1 ]; then
-    nmap $1 -vv -n -sC -sV -oA $1_nmap_quick
+    nmap $1 -vv -n --open --reason -sC -sV -oA $1_nmap_quick
     exit 0
 else
     usage

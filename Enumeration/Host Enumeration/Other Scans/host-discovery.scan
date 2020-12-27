@@ -1,0 +1,1 @@
+nmap <range> -sn -n --open --reason -oA host-discovery
