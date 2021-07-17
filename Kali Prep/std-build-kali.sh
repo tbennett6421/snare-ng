@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 ## Define VARS here
+CWD=$(pwd)
+BASE="/opt/build"
 SHARE="vmshared"
 WINEXEC="/windows/exec"
 
@@ -10,41 +12,43 @@ architecture=`uname -m`
 arch=0
 if [ $architecture == 'i686' ]; then
 	arch=32
+  dpkg --add-architecture i386 && apt-get update &&
+  
 else
 	arch=64
 fi
 
 ## Begin
-rm -rf /opt/build/ && mkdir -p /opt/build/
+rm -rf "$BASE" && mkdir -p "$BASE"
 
 ## Reconnoitre
-mkdir -p /opt/build/Reconnoitre && cd /opt/build/Reconnoitre
+rm -rf "$BASE/Reconnoitre"; mkdir -p "$BASE/Reconnoitre" && cd "$BASE/Reconnoitre"
 git clone https://github.com/codingo/Reconnoitre.git .
 python setup.py install
 
 ## VHostScan
-mkdir -p /opt/build/vhostscan && cd /opt/build/vhostscan
+rm -rf "$BASE/vhostscan"; mkdir -p "$BASE/vhostscan" && cd "$BASE/vhostscan"
 git clone https://github.com/codingo/VHostScan.git .
 python3 setup.py install
 
 ## Powershell Empire
-mkdir -p /opt/build/Empire && cd /opt/build/Empire
+rm -rf "$BASE/Empire"; mkdir -p "$BASE/Empire" && cd "$BASE/Empire"
 git clone https://github.com/EmpireProject/Empire.git .
 echo | bash ./setup/install.sh
 
 ## PTF
-mkdir -p /opt/build/ptf && mkdir -p /opt/build/ptf && cd /opt/build/ptf
+rm -rf "$BASE/ptf"; mkdir -p "$BASE/ptf" && cd "$BASE/ptf"
 git clone https://github.com/trustedsec/ptf.git .
 
 ## GoBuster
 apt-get install golang -y
-mkdir -p /opt/build/gobuster && cd /opt/build/gobuster
+rm -rf "$BASE/gobuster"; mkdir -p "$BASE/gobuster" && cd "$BASE/gobuster"
 git clone https://github.com/OJ/gobuster.git .
 go get -u github.com/OJ/gobuster && go build
 
 ## VS Code
 apt-get install gdebi -y
-mkdir -p /opt/build/vscode && cd /opt/build/vscode
+rm -rf "$BASE/vscode"; mkdir -p "$BASE/vscode" && cd "$BASE/vscode"
 if [ $arch -eq 32 ]; then
 	url=https://go.microsoft.com/fwlink/?LinkID=760680
 else
@@ -55,7 +59,7 @@ yes | gdebi vscode.deb
 
 ## Install debugging/emulation tools
 ## mingw-w64 provides windows build environment including cross compilers
-apt-get install mingw-w64 wine -y
+apt-get install mingw-w64 wine wine32 -y
 wine -i > /dev/null 2>&1
 cd /root/.wine/drive_c/users/root/Downloads/
 # setup python for windows
@@ -69,16 +73,16 @@ msiexec /i python-2.7.16.msi
 wine /root/.wine/drive_c/Python3/Scripts/pip.exe install pyinstaller
 
 ## OllyDebug
-mkdir -p /opt/build/ollydbg && cd /opt/build/ollydbg
+rm -rf "$BASE/ollydbg"; mkdir -p "$BASE/ollydbg" && cd "$BASE/ollydbg"
 wget http://www.ollydbg.de/odbg110.zip -O ollydbg.zip
 unzip ollydbg.zip
 
 ## Immunity debugger is blocked by registration
 ## SHA256 hash was recorded from the official site
 ## A copy was found on github; that we can dl
-mkdir -p /opt/build/immunity-debugger && cd /opt/build/immunity-debugger
+rm -rf "$BASE/immunity-debugger"; mkdir -p "$BASE/immunity-debugger" && cd "$BASE/immunity-debugger"
 hash='9c15cd47d018ccd99a6c8865baba20134c67061ae0e19232c32ecd0139ccfd42'
-wget "https://github.com/brianwrf/PriWebshell/blob/master/ImmunityDebugger_1_85_setup.exe?raw=true" -O ImmunityDebugger.exe
+wget "https://github.com/kbandla/ImmunityDebugger/releases/download/1.85/ImmunityDebugger_1_85_setup.exe" -O ImmunityDebugger.exe
 sha256sum ImmunityDebugger.exe | grep -o "$hash"
 if [ $? = 0 ]; then
   echo "Matching hashes for immunity debugger"
@@ -89,18 +93,18 @@ fi
 wget https://raw.githubusercontent.com/corelan/mona/master/mona.py -O "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/PyCommands/mona.py"
 
 ## Call mount folders
-/usr/local/sbin/mount-shared-folders
-ln -s /mnt/hgfs/$SHARE /root/Desktop/$SHARE
+#/usr/local/sbin/mount-shared-folders
+#ln -s /mnt/hgfs/$SHARE /root/Desktop/$SHARE
 
 ## Link files
-ln -s /opt/build/Empire/empire /usr/local/bin/empire
-ln -s /opt/build/ptf/ptf /usr/local/bin/ptf
-ln -s /opt/build/gobuster/gobuster /usr/local/bin/gobuster
+ln -s "$BASE/Empire/empire" /usr/local/bin/empire
+ln -s "$BASE/ptf/ptf" /usr/local/bin/ptf
+#ln -s "$BASE/gobuster/gobuster" /usr/local/bin/gobuster
 rm -rf "$WINEXEC" && mkdir -p "$WINEXEC"
 ln -s /root/.wine/drive_c/Python27/python.exe "$WINEXEC/python2.exe"
 ln -s /root/.wine/drive_c/Python3/python.exe "$WINEXEC/python3.exe"
 ln -s /root/.wine/drive_c/Python3/Scripts/pip.exe "$WINEXEC/pip.exe"
-ln -s /opt/build/ollydbg/OLLYDBG.EXE "$WINEXEC/ollydbg.exe"
+ln -s "$BASE/ollydbg/OLLYDBG.EXE" "$WINEXEC/ollydbg.exe"
 ln -s "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/ImmunityDebugger.exe" "$WINEXEC/immunity-debugger.exe"
 
 ## Prep Firefox
