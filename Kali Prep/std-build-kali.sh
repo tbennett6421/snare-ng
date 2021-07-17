@@ -7,7 +7,7 @@ SHARE="vmshared"
 WINEXEC="/windows/exec"
 
 ## Install additional tools
-apt-get install htop gdebi w3m openssh-server -y
+apt-get install htop gdebi w3m openssh-server python3-venv python3-pip -y
 architecture=`uname -m`
 arch=0
 if [ $architecture == 'i686' ]; then
@@ -106,6 +106,13 @@ ln -s /root/.wine/drive_c/Python3/python.exe "$WINEXEC/python3.exe"
 ln -s /root/.wine/drive_c/Python3/Scripts/pip.exe "$WINEXEC/pip.exe"
 ln -s "$BASE/ollydbg/OLLYDBG.EXE" "$WINEXEC/ollydbg.exe"
 ln -s "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/ImmunityDebugger.exe" "$WINEXEC/immunity-debugger.exe"
+
+## Prep a kali based venv for python3
+python3 -m venv ~/kali-env
+source ~/kali-env/bin/activate
+pip install wheel 
+pip install impacket pycrypto
+deactivate
 
 ## Prep Firefox
 cd /root/Downloads/
