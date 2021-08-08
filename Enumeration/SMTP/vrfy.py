@@ -14,12 +14,12 @@ def vrfy(args, user):
     # Create a Socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Connect to the Server
-    _ = s.connect(args.ip, args.port)
+    _ = s.connect((args.address, args.port))
     # Receive the banner
     banner = s.recv(1024)
     print(banner)
     # VRFY a user
-    s.send('VRFY ' + user + '\r\n')
+    s.send(str('VRFY ' + user + '\r\n').encode('utf-8'))
     result = s.recv(1024)
     print(result)
     # Close the socket
@@ -39,7 +39,7 @@ def attack(args):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p','--port',required=False,type=int,help='Remote smtp port. Default is 25',default=25)
-    parser.add_argument('-ip','--address',required=True,help='IP Address to attack.  Default is 127.0.0.1',default='127.0.0.1')
+    parser.add_argument('-i','--address',required=True,help='IP Address to attack.  Default is 127.0.0.1',default='127.0.0.1')
     parser.add_argument('-u','--username',required=False,help='Username to check target against')
     parser.add_argument('-U','--userfile',required=False,help='File containing usernames to check target against. Overrides -u')
     args = parser.parse_args()

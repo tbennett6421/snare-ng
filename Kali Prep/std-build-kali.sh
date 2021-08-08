@@ -108,8 +108,8 @@ ln -s "$BASE/ollydbg/OLLYDBG.EXE" "$WINEXEC/ollydbg.exe"
 ln -s "/root/.wine/drive_c/Program Files/Immunity Inc/Immunity Debugger/ImmunityDebugger.exe" "$WINEXEC/immunity-debugger.exe"
 
 ## Prep a kali based venv for python3
-python3 -m venv ~/kali-env
-source ~/kali-env/bin/activate
+python3 -m venv /root/kali-env
+source /root/kali-env/bin/activate
 pip install wheel 
 pip install impacket pycrypto
 deactivate
