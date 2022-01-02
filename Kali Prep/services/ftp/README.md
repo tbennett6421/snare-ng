@@ -38,5 +38,4 @@ mkdir -p /ftpdata
 # Configs
 wget https://raw.githubusercontent.com/tbennett6421/snare-ng/master/Kali%20Prep/services/ftp/twisted-ftp-server.py -O /ftpdata/twisted-ftp-server.py
 wget https://raw.githubusercontent.com/tbennett6421/snare-ng/master/Kali%20Prep/services/ftp/pass.dat -O /ftpdata/pass.dat
-
 ```
