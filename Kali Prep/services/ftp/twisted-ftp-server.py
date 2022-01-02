@@ -35,7 +35,7 @@ from __future__ import absolute_import
 
 ## Dunders
 __code_desc__ = """ Simple FTP server via twisted \n    ex: python {name}
-    """.format(name=str(__package_name__)+'.py')
+    """.format(name=str(__name__)+'.py')
 __code_version__ = 'v0.0.1'
 
 ## Standard Libraries
