@@ -53,13 +53,13 @@ def collect_args():
         formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-V', '--version', action='version', version=__code_version__)
     parser.add_argument('-v', '--verbose', action='count', default=0)
-    parser.add_argument('-p', '--port', required=True, type=int, default=21,
+    parser.add_argument('-p', '--port', type=int, default=21,
         help="TCP Port to bind to (default: %(default)s)")
-    parser.add_argument('-i','--address', required=True, type=str, default='',
+    parser.add_argument('-i','--address', type=str, default='',
         help="IP address to bind to. (default: %(default)s)")
-    parser.add_argument('--auth', required=True, type=str, default='/ftpdata/pass.dat',
+    parser.add_argument('--auth', type=str, default='/ftpdata/pass.dat',
         help="Authentication database to use (default: %(default)s)")
-    parser.add_argument('--root', required=True, type=str, default='/ftproot',
+    parser.add_argument('--root', type=str, default='/ftproot',
         help="The directory to serve over ftp (default: %(default)s)")
     args = parser.parse_args()
     return parser, args
