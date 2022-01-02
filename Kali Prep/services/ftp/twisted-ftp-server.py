@@ -46,6 +46,7 @@ import argparse
 from twisted.protocols.ftp import FTPFactory, FTPRealm
 from twisted.cred.portal import Portal
 from twisted.cred.checkers import AllowAnonymousAccess, FilePasswordDB
+from twisted.cred.checkers import InMemoryUsernamePasswordDatabaseDontUse as InMemoryDB
 from twisted.internet import reactor
 
 def collect_args():
@@ -87,11 +88,16 @@ def launch_server(args):
     while True:
         try:
 
+            users = {
+                'offsec': 'offsec'
+            }
+
             if args.verbose:
                 print(f"[*] Crafting twisted ftp realm")
             p = Portal(
                 FTPRealm(ftproot_directory),
-                [AllowAnonymousAccess(), FilePasswordDB(config)]
+                #[AllowAnonymousAccess(), FilePasswordDB(config)]
+                [AllowAnonymousAccess(), InMemoryDB(**users)]
             )
 
             if args.verbose:
@@ -109,9 +115,3 @@ def launch_server(args):
 
 if __name__=="__main__":
     main()
-
-
-
-
-
-
