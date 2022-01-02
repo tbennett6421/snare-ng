@@ -34,10 +34,12 @@ from twisted.internet import reactor
 # =====================
 #
 
-data_cf = '/ftpdata/'
+data_cf = '/ftpdata/pass.dat'
 ftproot_directory = '/ftproot/'
-#p = Portal(FTPRealm('./'),
-#           [AllowAnonymousAccess(), FilePasswordDB("pass.dat")])
+print("[*] Crafting twisted ftp realm")
+print(f"[*] Setting ftproot to {ftproot_directory}")
+print(f"[*] Setting FilePasswordDB to {data_cf}")
+
 p = Portal(
     FTPRealm(ftproot_directory),
     [AllowAnonymousAccess(), FilePasswordDB(data_cf)]
