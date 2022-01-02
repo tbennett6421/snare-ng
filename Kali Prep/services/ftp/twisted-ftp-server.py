@@ -1,10 +1,6 @@
 """
 An example FTP server with minimal user authentication.
 """
-from twisted.protocols.ftp import FTPFactory, FTPRealm
-from twisted.cred.portal import Portal
-from twisted.cred.checkers import AllowAnonymousAccess, FilePasswordDB
-from twisted.internet import reactor
 
 #
 # First, set up a portal (twisted.cred.portal.Portal). This will be used
@@ -34,27 +30,88 @@ from twisted.internet import reactor
 # =====================
 #
 
-data_cf = '/ftpdata/pass.dat'
-ftproot_directory = '/ftproot/'
-print("[*] Crafting twisted ftp realm")
-print(f"[*] Setting ftproot to {ftproot_directory}")
-print(f"[*] Setting FilePasswordDB to {data_cf}")
+from __future__ import print_function
+from __future__ import absolute_import
 
-p = Portal(
-    FTPRealm(ftproot_directory),
-    [AllowAnonymousAccess(), FilePasswordDB(data_cf)]
-)
+## Dunders
+__code_desc__ = """ Simple FTP server via twisted \n    ex: python {name}
+    """.format(name=str(__package_name__)+'.py')
+__code_version__ = 'v0.0.1'
 
-#
-# Once the portal is set up, start up the FTPFactory and pass the portal to
-# it on startup. FTPFactory will start up a twisted.protocols.ftp.FTP()
-# handler for each incoming OPEN request. Business as usual in Twisted land.
-#
-f = FTPFactory(p)
+## Standard Libraries
+import os
+import argparse
 
-#
-# You know this part. Point the reactor to port 21 coupled with the above factory,
-# and start the event loop.
-#
-reactor.listenTCP(21, f)
-reactor.run()
+## Third-Party Libraries
+from twisted.protocols.ftp import FTPFactory, FTPRealm
+from twisted.cred.portal import Portal
+from twisted.cred.checkers import AllowAnonymousAccess, FilePasswordDB
+from twisted.internet import reactor
+
+def collect_args():
+    parser = argparse.ArgumentParser(description=__code_desc__,
+        formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('-V', '--version', action='version', version=__code_version__)
+    parser.add_argument('-v', '--verbose', action='count', default=0)
+    parser.add_argument('-p', '--port', required=True, type=int, default=21,
+        help="TCP Port to bind to (default: %(default)s)")
+    parser.add_argument('-i','--address', required=True, type=str, default='',
+        help="IP address to bind to. (default: %(default)s)")
+    parser.add_argument('--auth', required=True, type=str, default='/ftpdata/pass.dat',
+        help="Authentication database to use (default: %(default)s)")
+    parser.add_argument('--root', required=True, type=str, default='/ftproot',
+        help="The directory to serve over ftp (default: %(default)s)")
+    args = parser.parse_args()
+    return parser, args
+
+def handle_args():
+    # collect parser if needed to conditionally call usage: parser.print_help()
+    parser, args = collect_args()
+    return args
+
+def main():
+    args = handle_args()
+    try:
+        launch_server(args)
+    except Exception as e:
+        print(f"Caught exception {e}:{e.args}")
+        raise e
+
+def launch_server(args):
+    ftproot_directory = args.root
+    config = args.auth
+    if args.verbose:
+        print(f"[*] Setting ftproot to {ftproot_directory}")
+        print(f"[*] Setting FilePasswordDB to {config}")
+
+    while True:
+        try:
+
+            if args.verbose:
+                print(f"[*] Crafting twisted ftp realm")
+            p = Portal(
+                FTPRealm(ftproot_directory),
+                [AllowAnonymousAccess(), FilePasswordDB(config)]
+            )
+
+            if args.verbose:
+                print(f"[*] Crafting FTPFactory from realm")
+            f = FTPFactory(p)
+
+            if args.verbose:
+                iface = "all" if args.address == "" else args.address
+                print(f"[*] Spawning Twisted reactor and binding to TCP socket {iface}:{args.port}")
+            reactor.listenTCP(args.port, f, interface=args.address)
+            reactor.run()
+
+        except KeyboardInterrupt:
+            break
+
+if __name__=="__main__":
+    main()
+
+
+
+
+
+
