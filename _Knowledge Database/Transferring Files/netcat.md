@@ -1,6 +1,6 @@
 # 1) Spawn receiving host socket
 ```sh
-LPORT=4444
+set LPORT=4444
 nc -nlvp $LPORT> incoming.exe
 ...
 listening on [any] 4444 ...

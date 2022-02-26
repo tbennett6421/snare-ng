@@ -6,8 +6,8 @@ sudo socat TCP4-LISTEN:$LPORT,fork file:$FILE_TO_SHARE
 ```
 
 # 2) Downloading the file from remote host
-```sh
-RHOST=10.11.0.22
-RPORT=4444
-socat TCP4:$RHOST:$RPORT file:wget.exe,create
+```bat
+set RHOST=10.11.0.22
+set RPORT=4444
+socat TCP4:%RHOST%:%RPORT% file:wget.exe,create
 ```
