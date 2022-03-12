@@ -1,11 +1,11 @@
-# twisted-ftp
+# ftpserver
 
 # Overview
-During offensive engagements, I dislike configuring vsftp. So I just use twisted instead. This is not approriate for production use as it exposes anonymous ftp access.
+During offensive engagements, I dislike configuring vsftp. So I just use pyftpdlib instead. This is not approriate for production use as it exposes anonymous ftp access.
 
 # Usage
 ```
-usage: twisted-ftp-server.py [-h] [-V] [-v] [-p PORT] [-i ADDRESS] [--auth AUTH] [--root ROOT]
+usage: ftpserver.py [-h] [-V] [-v] [-p PORT] [-i ADDRESS] [--root ROOT]
 
  Simple FTP server via twisted
     ex: python __main__.py
@@ -16,8 +16,7 @@ optional arguments:
   -v, --verbose
   -p PORT, --port PORT  TCP Port to bind to (default: 21)
   -i ADDRESS, --address ADDRESS
-                        IP address to bind to. (default: )
-  --auth AUTH           Authentication database to use (default: /ftpdata/pass.dat)
+                        IP address to bind to. (default: 0.0.0.0)
   --root ROOT           The directory to serve over ftp (default: /ftproot)
 ```
 
@@ -33,9 +32,4 @@ pip install -r requirements.txt
 
 # configure core directories
 mkdir -p /ftproot
-mkdir -p /ftpdata
-
-# Configs
-wget https://raw.githubusercontent.com/tbennett6421/snare-ng/master/Kali%20Prep/services/ftp/twisted-ftp-server.py -O /ftpdata/twisted-ftp-server.py
-wget https://raw.githubusercontent.com/tbennett6421/snare-ng/master/Kali%20Prep/services/ftp/pass.dat -O /ftpdata/pass.dat
 ```
