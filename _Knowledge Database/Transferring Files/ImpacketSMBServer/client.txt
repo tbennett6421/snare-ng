@@ -1,0 +1,2 @@
+net use Z: \\192.168.119.202\ROPNOP
+copy \\192.168.119.202\ROPNOP
