@@ -1,1 +1,1 @@
-python smbserver.py ROPNOP /offsec/stage
+python smbserver.py NOPEROPE /offsec/stage
