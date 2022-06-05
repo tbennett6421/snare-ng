@@ -5,4 +5,4 @@ if [ -z "$1" ]; then
     exit 0
 fi
 
-nmap $1 -p 22 -sV --script=ssh-hostkey -oA $1.ssh-hostkey
+nmap $1 -p 22 -sV -Pn --script=ssh-hostkey -oA $1.ssh-hostkey
